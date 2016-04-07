@@ -1,0 +1,31 @@
+        this.mouseEnabled = this.mouseChildren = false;
+        this.addEventListener(Event.ENTER_FRAME, onEnterFrame);
+        this.alpha = 3;
+        this.addChild( tf );
+    }
+    private function onEnterFrame(e:Event):void {
+        this.alpha *= 0.95;
+        if ( this.alpha < 0.1 ) {
+            this.removeEventListener(Event.ENTER_FRAME, onEnterFrame);
+            if ( this.parent != null ) {
+                this.parent.removeChild( this );
+            }
+        }
+    }
+}
+
+class DataEvent extends Event {
+    public var track:int;
+    public var beat:int;
+    public var bit:int;
+    public static const CHANGE:String = "change";
+    public function DataEvent(type:String, track:int, beat:int, bit:int, bubbles:Boolean = false, cancelable:Boolean = false ) {
+        this.track = track;
+        this.beat = beat;
+        this.bit = bit;
+        super(type, bubbles, cancelable);
+    }
+    public override function toString():String {
+        return super.toString() + "[track:" + track + ", beat:" + beat +", bit:" + bit + "]";
+    }
+}
